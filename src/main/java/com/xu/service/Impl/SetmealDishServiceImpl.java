@@ -30,19 +30,7 @@ public class SetmealDishServiceImpl extends ServiceImpl<SetmealDishMapper, Setme
 
     @Override
     public boolean saveOne(SetmealDto setmealDto) {
-//        //添加套餐
-//        boolean save = this.save(setmealDto);
-//
-//        //添加套餐菜品 TODO
-//        List<DishFlavor> flavors = dishDto.getFlavors();
-//        Long id = dishDto.getId();
-//        flavors = flavors.stream().map((item) -> {
-//            item.setDishId(id);
-//            return item;
-//        }).collect(Collectors.toList());
-//        boolean saveBatch = dishFlavorService.saveBatch(flavors);
-//
-//        return saveBatch && save;
+
         return true;
     }
 

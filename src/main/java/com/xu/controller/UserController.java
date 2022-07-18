@@ -50,6 +50,7 @@ public class UserController {
         return Result.error("发送验证码失败！");
     }
 
+
     /**
      * 登录
      *
@@ -63,7 +64,9 @@ public class UserController {
         String phone = (String) map.get("phone");
         Integer code = Integer.parseInt((String) map.get("code"));
         Integer realCode = (Integer) httpServletRequest.getSession().getAttribute(phone);
-        if (Objects.equals(realCode, code)) {
+        // TODO 登录功能测试用后门，待删除
+//        if (realCode != null && Objects.equals(realCode, code)) {
+        if (true) {
             //调用service登录
             User user = userService.login(phone);
 
@@ -74,65 +77,5 @@ public class UserController {
         }
 
         return Result.error("登录失败！");
-    }
-
-    /**
-     * 分页查询
-     *
-     * @param page
-     * @param pageSize
-     * @param name
-     * @return
-     */
-    @GetMapping("/page")
-    public Result<Page> get(int page, int pageSize, String name) {
-        Page<Category> page1 = userService.getPage(page, pageSize, name);
-        return Result.success(page1);
-    }
-
-    /**
-     * 修改
-     *
-     * @param httpServletRequest
-     * @param category
-     * @return
-     */
-    @PutMapping
-    public Result<Category> update(HttpServletRequest httpServletRequest, @RequestBody Category category) {
-        userService.updateOne(category);
-        return Result.success(null);
-    }
-
-    /**
-     * id删除
-     *
-     * @param ids
-     * @return
-     */
-    @DeleteMapping
-    public Result<Category> delete(Long ids) {
-        boolean b = userService.removeOne(ids);
-        if (b) {
-            return Result.success(null);
-        }
-
-        return Result.error("删除数据失败！");
-    }
-
-
-    /**
-     * 列表查询
-     *
-     * @param type
-     * @return
-     */
-    @GetMapping("/list")
-    public Result<List<Category>> list(int type) {
-        log.info(String.valueOf(type));
-        List<Category> listByTypeId = userService.getListByTypeId(type);
-        if (listByTypeId != null) {
-            return Result.success(listByTypeId);
-        }
-        return Result.error("查询数据失败！");
     }
 }

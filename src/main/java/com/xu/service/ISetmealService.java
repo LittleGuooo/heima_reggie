@@ -7,6 +7,8 @@ import com.xu.dto.SetmealDto;
 import com.xu.entity.Dish;
 import com.xu.entity.Setmeal;
 
+import java.util.List;
+
 public interface ISetmealService extends IService<Setmeal> {
     /**
      * 添加一个新菜品数据
@@ -40,4 +42,6 @@ public interface ISetmealService extends IService<Setmeal> {
     boolean status(Integer status, Long[] ids);
 
     SetmealDto getOne(Long id);
+
+    List<SetmealDto> getList(Setmeal setmeal);
 }

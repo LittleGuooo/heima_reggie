@@ -175,4 +175,28 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
 
         return setmealDto;
     }
+
+    @Override
+    public List<SetmealDto> getList(Setmeal setmeal) {
+        //查询套餐数据
+        LambdaQueryWrapper<Setmeal> setmealLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        setmealLambdaQueryWrapper.eq(Setmeal::getCategoryId,setmeal.getCategoryId());
+        setmealLambdaQueryWrapper.eq(Setmeal::getStatus,1);
+        List<Setmeal> setmealList = this.list(setmealLambdaQueryWrapper);
+
+        //查询对应菜品数据，并组成SetmealDto
+        List<SetmealDto> setmealDtoList = setmealList.stream().map(setmeal1 -> {
+            SetmealDto setmealDto = new SetmealDto();
+            BeanUtils.copyProperties(setmeal1,setmealDto);
+
+            LambdaQueryWrapper<SetmealDish> setmealDishLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            setmealDishLambdaQueryWrapper.eq(SetmealDish::getSetmealId,setmeal1.getId());
+            List<SetmealDish> setmealDishList = setmealDishService.list(setmealDishLambdaQueryWrapper);
+            setmealDto.setSetmealDishes(setmealDishList);
+
+            return setmealDto;
+        }).collect(Collectors.toList());
+
+        return setmealDtoList;
+    }
 }

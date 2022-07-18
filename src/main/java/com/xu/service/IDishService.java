@@ -43,4 +43,6 @@ public interface IDishService extends IService<Dish> {
     boolean status(Integer status, Long[] ids);
 
     boolean removeOne(Long[] ids);
+
+    List<DishDto> getList(Dish dish);
 }

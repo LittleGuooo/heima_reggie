@@ -5,15 +5,43 @@ import com.xu.common.Result;
 import com.xu.dto.DishDto;
 import com.xu.dto.SetmealDto;
 import com.xu.entity.Category;
+import com.xu.entity.Dish;
+import com.xu.entity.Setmeal;
 import com.xu.service.ISetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/setmeal")
 public class SetmealController {
     @Autowired
     private ISetmealService setmealService;
+
+    /**
+     * 列表查询
+     * @param setmeal
+     * @return
+     */
+    @GetMapping("/list")
+    public Result<List<SetmealDto>> list(Setmeal setmeal) {
+        List<SetmealDto> setmealDtos = setmealService.getList(setmeal);
+        return Result.success(setmealDtos);
+    }
+
+    /**
+     * 查询
+     * TODO 未完成
+     * @param id
+     * @return
+     */
+    @GetMapping("/dish/{id}")
+    public Result<SetmealDto> dish(@PathVariable Long id) {
+        SetmealDto setmealDto = setmealService.getOne(id);
+        return Result.success(setmealDto);
+    }
+
 
     /**
      * 分页查询

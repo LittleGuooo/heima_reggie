@@ -82,17 +82,14 @@ public class DishController {
 
     /**
      * 列表查询
-     * @param categoryId
+     * @param dish
      * @return
      */
     @GetMapping("/list")
-    public Result<List<Dish>> list(Long categoryId) {
-        List<Dish> dishes = dishService.getListByCategoryId(categoryId);
-        if (dishes != null) {
-            return Result.success(dishes);
-        }
+    public Result<List<DishDto>> list(Dish dish) {
+        List<DishDto> dishDtos = dishService.getList(dish);
 
-        return Result.error("查询数据失败！");
+            return Result.success(dishDtos);
     }
 
     /**

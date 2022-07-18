@@ -14,6 +14,7 @@ public class SMSUtils {
 
 	/**
 	 * 发送短信
+	 * 由于申请不到阿里云短信服务的签名，以下代码未使用。
 	 * @param signName 签名
 	 * @param templateCode 模板
 	 * @param phoneNumbers 手机号
