@@ -2,27 +2,19 @@ package com.xu.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xu.entity.AddressBook;
+import com.xu.dto.OrdersDto;
 import com.xu.entity.Category;
-import com.xu.mapper.AddressBookMapper;
+import com.xu.entity.Orders;
 
 import java.util.List;
 
-public interface IAddressBookService extends IService<AddressBook> {
+public interface IOrdersService extends IService<Orders> {
     /**
-     * 添加一个新数据
-     * @param addressBook
+     * 添加一个新分类数据
+     * @param category
      * @return
      */
-    boolean saveOne(AddressBook addressBook);
-
-    /**
-     * 添加一个新数据
-     * 同时设置userId
-     * @param addressBook
-     * @return
-     */
-    boolean saveOne(AddressBook addressBook, Long userId);
+    boolean saveOne(Category category);
 
     /**
      * 返回一页分类数据
@@ -46,11 +38,9 @@ public interface IAddressBookService extends IService<AddressBook> {
      */
     boolean removeOne(Long id);
 
-    List<AddressBook> getList();
+    List<Category> getListByTypeId(Integer typeId);
 
-    List<AddressBook> getListByUserId(Long userID);
+    Boolean submit(Orders orders);
 
-    boolean setDefault(AddressBook addressBook);
-
-    AddressBook getDefault();
+    Page<OrdersDto> userPage(Integer page, Integer pageSize);
 }

@@ -1,20 +1,16 @@
 package com.xu.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xu.common.BaseContext;
-import com.xu.entity.AddressBook;
-import com.xu.entity.Category;
-import com.xu.entity.Dish;
-import com.xu.entity.Setmeal;
+import com.xu.entity.*;
 import com.xu.exception.BusinessException;
-import com.xu.mapper.AddressBookMapper;
 import com.xu.mapper.CategoryMapper;
-import com.xu.service.IAddressBookService;
-import com.xu.service.ICategoryService;
+import com.xu.mapper.OrderDetailMapper;
+import com.xu.mapper.OrdersMapper;
 import com.xu.service.IDishService;
+import com.xu.service.IOrderDetailService;
+import com.xu.service.IOrdersService;
 import com.xu.service.ISetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,25 +19,18 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Service
-public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, AddressBook> implements IAddressBookService {
+public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, OrderDetail> implements IOrderDetailService {
     @Autowired
     private CategoryMapper categoryMapper;
     @Autowired
     private IDishService dishService;
     @Autowired
     private ISetmealService setmealService;
-    @Autowired
-    private AddressBookMapper addressBookMapper;
 
     @Override
-    public boolean saveOne(AddressBook addressBook) {
-        return this.save(addressBook);
-    }
-
-    @Override
-    public boolean saveOne(AddressBook addressBook, Long userId) {
-        addressBook.setUserId(userId);
-        return this.saveOne(addressBook);
+    public boolean saveOne(Category category) {
+        int insert = categoryMapper.insert(category);
+        return insert > 0;
     }
 
     @Override
@@ -94,42 +83,10 @@ public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, Addre
     }
 
     @Override
-    public List<AddressBook> getList() {
-        return this.list();
-    }
+    public List<Category> getListByTypeId(Integer typeId) {
+        LambdaQueryWrapper<Category> categoryLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        categoryLambdaQueryWrapper.eq(typeId != null, Category::getType, typeId);
 
-    @Override
-    public List<AddressBook> getListByUserId(Long userID) {
-        LambdaQueryWrapper<AddressBook> addressBookLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        addressBookLambdaQueryWrapper.eq(AddressBook::getUserId,userID);
-
-        return this.list(addressBookLambdaQueryWrapper);
-    }
-
-    @Override
-    public boolean setDefault(AddressBook addressBook) {
-        //取消原默认地址
-        LambdaUpdateWrapper<AddressBook> addressBookLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        addressBookLambdaUpdateWrapper.eq(AddressBook::getUserId,addressBook.getUserId());
-        addressBookLambdaUpdateWrapper.set(AddressBook::getIsDefault,0);
-        boolean update = this.update(addressBookLambdaUpdateWrapper);
-
-        //设置新默认地址
-        addressBook.setIsDefault(1);
-
-        return this.updateById(addressBook);
-    }
-
-    @Override
-    public AddressBook getDefault() {
-        //获得userId
-        Long userId = BaseContext.getValue();
-
-        //根据userId查询用户默认地址
-        LambdaQueryWrapper<AddressBook> addressBookLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        addressBookLambdaQueryWrapper.eq(AddressBook::getUserId,userId);
-        addressBookLambdaQueryWrapper.eq(AddressBook::getIsDefault,1);
-
-        return this.getOne(addressBookLambdaQueryWrapper);
+        return categoryMapper.selectList(categoryLambdaQueryWrapper);
     }
 }

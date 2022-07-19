@@ -3,42 +3,52 @@ package com.xu.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xu.common.BaseContext;
 import com.xu.common.Result;
+import com.xu.dto.OrdersDto;
 import com.xu.entity.AddressBook;
 import com.xu.entity.Category;
-import com.xu.mapper.AddressBookMapper;
+import com.xu.entity.Orders;
 import com.xu.service.IAddressBookService;
-import com.xu.service.ICategoryService;
+import com.xu.service.IOrdersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.beans.ParameterDescriptor;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/addressBook")
-public class AddressBookController {
+@RequestMapping("/order")
+public class OrdersController {
     @Autowired
-    private IAddressBookService addressBookService;
+    private IOrdersService ordersService;
+
 
     /**
      * 新增
+     * 提交新订单
      *
-     * @param addressBook
+     * @param ordersDto
      * @return
      */
-    @PostMapping
-    public Result<String> save(@RequestBody AddressBook addressBook) {
-        //获取UserId
-        addressBook.setUserId(BaseContext.getValue());
-
-        //新增地址
-        addressBookService.saveOne(addressBook);
+    @PostMapping("/submit")
+    public Result<String> submit(@RequestBody OrdersDto ordersDto) {
+        ordersService.submit(ordersDto);
 
         return Result.success("添加成功！");
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/userPage")
+    public Result<Page<OrdersDto>> userPage(Integer page, Integer pageSize) {
+        Page<OrdersDto> ordersDtoPage = ordersService.userPage(page, pageSize);
+
+        return Result.success(ordersDtoPage);
     }
 
     /**
@@ -53,14 +63,16 @@ public class AddressBookController {
         Long userId = BaseContext.getValue();
 
         //根据id查询地址列表
-        List<AddressBook> addressBookList = addressBookService.getListByUserId(userId);
-
-        return Result.success(addressBookList);
+//        List<AddressBook> addressBookList = ordersService.getListByUserId(userId);
+//
+//        return Result.success(addressBookList);
+        return null;
     }
 
     /**
      * 修改
      * 设置默认地址
+     *
      * @param addressBook
      * @return
      */
@@ -70,7 +82,7 @@ public class AddressBookController {
         addressBook.setUserId(BaseContext.getValue());
 
         //设置默认地址
-        boolean b = addressBookService.setDefault(addressBook);
+//        boolean b = ordersService.setDefault(addressBook);
 
         return Result.success(null);
     }
@@ -78,14 +90,16 @@ public class AddressBookController {
     /**
      * 查询
      * 查询默认地址
+     *
      * @return
      */
     @GetMapping("/default")
     public Result<AddressBook> getDefault() {
         //查询默认地址
-        AddressBook addressBook = addressBookService.getDefault();
-
-        return Result.success(addressBook);
+//        AddressBook addressBook = ordersService.getDefault();
+//
+//        return Result.success(addressBook);
+        return null;
     }
 
     /**
@@ -98,7 +112,7 @@ public class AddressBookController {
      */
     @GetMapping("/page")
     public Result<Page> get(int page, int pageSize, String name) {
-        Page<Category> page1 = addressBookService.getPage(page, pageSize, name);
+        Page<Category> page1 = ordersService.getPage(page, pageSize, name);
         return Result.success(page1);
     }
 
@@ -110,7 +124,7 @@ public class AddressBookController {
      */
     @DeleteMapping
     public Result<Category> delete(Long ids) {
-        boolean b = addressBookService.removeOne(ids);
+        boolean b = ordersService.removeOne(ids);
         if (b) {
             return Result.success(null);
         }
