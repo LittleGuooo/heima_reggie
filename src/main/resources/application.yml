@@ -9,6 +9,11 @@ spring:
       password: root
   main:
     banner-mode: off
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+#    password: root
 
 server:
   port: 80
@@ -28,5 +33,6 @@ mybatis-plus:
       logic-not-delete-value: 0
       logic-delete-value: 1
     banner: false
+
 reggie:
   dish-images-dir: C:\Users\Xu\IdeaProjects\heima_reggie\src\main\resources\static\backend\images\dish-images\
