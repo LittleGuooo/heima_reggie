@@ -13,8 +13,10 @@ spring:
     host: 127.0.0.1
     port: 6379
     database: 0
+  cache:
+    redis:
+      time-to-live: 1800000
 #    password: root
-
 server:
   port: 80
 #  servlet:

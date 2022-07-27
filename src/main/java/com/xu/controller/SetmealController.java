@@ -9,6 +9,10 @@ import com.xu.entity.Dish;
 import com.xu.entity.Setmeal;
 import com.xu.service.ISetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +22,16 @@ import java.util.List;
 public class SetmealController {
     @Autowired
     private ISetmealService setmealService;
+    @Autowired
+    private CacheManager cacheManager;
 
     /**
      * 列表查询
      * @param setmeal
      * @return
      */
+//    @Cacheable(value = "setmealCache",key =  "'categoryId_' + #setmeal.categoryId" ,unless = "#result.data.size() == 0")
+    @Cacheable(value = "setmealCache",key =  "#setmeal.categoryId + '_' + #setmeal.status" )
     @GetMapping("/list")
     public Result<List<SetmealDto>> list(Setmeal setmeal) {
         List<SetmealDto> setmealDtos = setmealService.getList(setmeal);
@@ -61,6 +69,7 @@ public class SetmealController {
      * @param setmealDto
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @PostMapping
     public Result<String> save(@RequestBody SetmealDto setmealDto) {
         //添加菜品
@@ -76,6 +85,7 @@ public class SetmealController {
      * @param ids
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @DeleteMapping
     public Result<String> delete(Long[] ids) {
         //判断ids是否为空
@@ -108,6 +118,7 @@ public class SetmealController {
      * @param setmealDto
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @PutMapping
     public Result<String> update(@RequestBody SetmealDto setmealDto) {
         boolean b = setmealService.updateOne(setmealDto);

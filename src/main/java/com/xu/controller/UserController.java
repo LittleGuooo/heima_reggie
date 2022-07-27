@@ -6,6 +6,8 @@ import com.xu.entity.User;
 import com.xu.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,7 +78,7 @@ public class UserController {
 
         if (realCode.equals(code)) {
             //验证码验证通过，删除验证码
-            Boolean delete = redisTemplate.delete("code");
+            Boolean delete = redisTemplate.delete(phone);
 
             //调用service登录
             User user = userService.login(phone);
