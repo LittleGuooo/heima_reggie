@@ -117,6 +117,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
         //再重新添加
         List<DishFlavor> flavors = dishDto.getFlavors();
         List<DishFlavor> newFlavors = flavors.stream().map(flavor -> {
+            //因为逻辑删除将产生id冲突，所以清除id
+            flavor.setId(null);
+
             flavor.setDishId(id);
             return flavor;
         }).collect(Collectors.toList());

@@ -1,22 +1,22 @@
 package com.xu.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xu.common.Result;
 import com.xu.common.ValidateCodeUtils;
-import com.xu.entity.Category;
 import com.xu.entity.User;
 import com.xu.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.AnnotationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.xml.datatype.Duration;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
@@ -24,6 +24,8 @@ import java.util.Objects;
 public class UserController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 发送验证码
@@ -37,12 +39,15 @@ public class UserController {
         String phone = user.getPhone();
 
         if (phone != null) {
-            //假设调用Api发送验证成功
+            //假设调用短信Api发送验证成功
             Integer code = ValidateCodeUtils.generateValidateCode(6);
             log.info("code=" + code);
 
             //存入验证与手机信息
-            httpServletRequest.getSession().setAttribute(phone, code);
+            //原先：验证码存入session，有效期30分钟。
+//            httpServletRequest.getSession().setAttribute(phone, code);
+            //优化：验证码存入redis缓存。
+            redisTemplate.opsForValue().set(phone,code,5, TimeUnit.MINUTES);
 
             return Result.success("发送验证码成功！");
         }
@@ -63,10 +68,16 @@ public class UserController {
         //比对验证码
         String phone = (String) map.get("phone");
         Integer code = Integer.parseInt((String) map.get("code"));
-        Integer realCode = (Integer) httpServletRequest.getSession().getAttribute(phone);
-        // TODO 登录功能测试用后门，待删除
-//        if (realCode != null && Objects.equals(realCode, code)) {
-        if (true) {
+        //原先
+//        Integer realCode = (Integer) httpServletRequest.getSession().getAttribute(phone);
+        //优化：从redis缓存中取出code
+        Integer realCode = (Integer) redisTemplate.opsForValue().get(phone);
+        log.info(realCode.toString());
+
+        if (realCode.equals(code)) {
+            //验证码验证通过，删除验证码
+            Boolean delete = redisTemplate.delete("code");
+
             //调用service登录
             User user = userService.login(phone);
 
