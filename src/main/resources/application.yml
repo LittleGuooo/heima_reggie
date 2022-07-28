@@ -1,4 +1,27 @@
 spring:
+  shardingsphere:
+    datasource:
+      names: master,slave
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.0.104:3306/reggie?useSSL=false
+        username: root
+        password: root
+      slave:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.0.103:3306/reggie?useSSL=false
+        username: root
+        password: root
+    masterslave:
+      load-balance-algorithm-type: round_robin
+      name: dataSource
+      master-data-source-name: master
+      slave-data-source-names: slave
+    props:
+      sql:
+        show: true
   application:
     name: reggie
   datasource:
@@ -8,6 +31,7 @@ spring:
       username: root
       password: root
   main:
+    allow-bean-definition-overriding: true
     banner-mode: off
   redis:
     host: 127.0.0.1
