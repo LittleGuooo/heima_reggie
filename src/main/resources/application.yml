@@ -43,7 +43,7 @@ spring:
       time-to-live: 1800000
 #    password: root
 server:
-  port: 8080
+  port: 8081
 #  servlet:
 #    session:
 #      # Session存活时长（分钟）
