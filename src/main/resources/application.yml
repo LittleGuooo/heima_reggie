@@ -34,7 +34,7 @@ spring:
     allow-bean-definition-overriding: true
     banner-mode: off
   redis:
-    host: 127.0.0.1
+    host: 192.168.0.104
     port: 6379
     database: 0
   cache:
@@ -42,7 +42,7 @@ spring:
       time-to-live: 1800000
 #    password: root
 server:
-  port: 80
+  port: 8080
 #  servlet:
 #    session:
 #      # Session存活时长（分钟）
@@ -61,4 +61,4 @@ mybatis-plus:
     banner: false
 
 reggie:
-  dish-images-dir: C:\Users\Xu\IdeaProjects\heima_reggie\src\main\resources\static\backend\images\dish-images\
+  dish-images-dir: /usr/local/img/
