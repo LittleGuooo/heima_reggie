@@ -9,6 +9,7 @@ import com.xu.entity.Category;
 import com.xu.entity.Orders;
 import com.xu.service.IAddressBookService;
 import com.xu.service.IOrdersService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/order")
+@Api(tags = "订单相关接口")
 public class OrdersController {
     @Autowired
     private IOrdersService ordersService;

@@ -5,6 +5,7 @@ import com.xu.common.Result;
 import com.xu.dto.DishDto;
 import com.xu.entity.Dish;
 import com.xu.service.IDishService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @RequestMapping("/dish")
+@Api(tags = "菜品相关接口")
 public class DishController {
     @Autowired
     private IDishService dishService;

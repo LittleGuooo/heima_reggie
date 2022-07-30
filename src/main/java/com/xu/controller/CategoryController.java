@@ -5,6 +5,7 @@ import com.xu.common.Result;
 import com.xu.entity.Category;
 import com.xu.entity.Employee;
 import com.xu.service.ICategoryService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/category")
+@Api(tags = "分类相关接口")
 public class CategoryController {
     @Autowired
     private ICategoryService categoryService;

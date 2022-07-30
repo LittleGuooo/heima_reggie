@@ -2,6 +2,7 @@ package com.xu.controller;
 
 import com.xu.common.Result;
 import com.xu.exception.BusinessException;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -21,6 +22,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequestMapping("/common")
+@Api(tags = "通用相关接口")
 public class CommonController {
     @Value("${reggie.dish-images-dir}")
     private String imagesDir;

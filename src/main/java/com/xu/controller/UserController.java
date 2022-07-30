@@ -4,6 +4,7 @@ import com.xu.common.Result;
 import com.xu.common.ValidateCodeUtils;
 import com.xu.entity.User;
 import com.xu.service.IUserService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户相关接口")
 public class UserController {
     @Autowired
     private IUserService userService;

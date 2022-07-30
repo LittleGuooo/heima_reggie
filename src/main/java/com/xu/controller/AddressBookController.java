@@ -8,6 +8,7 @@ import com.xu.entity.Category;
 import com.xu.mapper.AddressBookMapper;
 import com.xu.service.IAddressBookService;
 import com.xu.service.ICategoryService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/addressBook")
+@Api(tags = "地址簿相关接口")
 public class AddressBookController {
     @Autowired
     private IAddressBookService addressBookService;

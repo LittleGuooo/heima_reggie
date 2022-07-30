@@ -8,6 +8,7 @@ import com.xu.entity.Category;
 import com.xu.entity.Dish;
 import com.xu.entity.Setmeal;
 import com.xu.service.ISetmealService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/setmeal")
+@Api(tags = "套餐相关接口")
 public class SetmealController {
     @Autowired
     private ISetmealService setmealService;
