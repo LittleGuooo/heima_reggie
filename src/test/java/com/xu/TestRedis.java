@@ -20,16 +20,16 @@ public class TestRedis {
 //        ValueOperations valueOperations = redisTemplate.opsForValue();
 //        valueOperations.set("name","xu");
 
-        Set keys = redisTemplate.keys("name");
-        System.out.println(keys);
+//        Set keys = redisTemplate.keys("name");
+//        System.out.println(keys);
     }
 
     @Test
     public void Test2(){
-        redisTemplate.opsForValue().set("code","123",30, TimeUnit.SECONDS);
-
-        Object code = redisTemplate.opsForValue().get("code");
-
-        System.out.println(code.getClass());
+//        redisTemplate.opsForValue().set("code","123",30, TimeUnit.SECONDS);
+//
+//        Object code = redisTemplate.opsForValue().get("code");
+//
+//        System.out.println(code.getClass());
     }
 }
