@@ -22,16 +22,16 @@ class IEmployeeServiceTest {
 
     @Test
     void saveOne() {
-        List<String> randomEmployee = CommonTest.TestRandomEmployee();
-        Employee employee = new Employee();
-        employee.setName(randomEmployee.get(0));
-        employee.setUsername(randomEmployee.get(1));
-        employee.setPhone(randomEmployee.get(2));
-        employee.setIdNumber(randomEmployee.get(3));
-        employee.setSex(randomEmployee.get(4));
-        employee.setPassword(randomEmployee.get(5));
-
-        iEmployeeService.save(employee);
+//        List<String> randomEmployee = CommonTest.TestRandomEmployee();
+//        Employee employee = new Employee();
+//        employee.setName(randomEmployee.get(0));
+//        employee.setUsername(randomEmployee.get(1));
+//        employee.setPhone(randomEmployee.get(2));
+//        employee.setIdNumber(randomEmployee.get(3));
+//        employee.setSex(randomEmployee.get(4));
+//        employee.setPassword(randomEmployee.get(5));
+//
+//        iEmployeeService.save(employee);
     }
 
     @Test
