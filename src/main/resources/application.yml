@@ -24,12 +24,12 @@ spring:
         show: true
   application:
     name: reggie
-  datasource:
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql:///reggie?useSSL=false
-      username: root
-      password: root
+#  datasource:
+#    druid:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql:///reggie?useSSL=false
+#      username: root
+#      password: root
   main:
     allow-bean-definition-overriding: true
     banner-mode: off
@@ -37,10 +37,10 @@ spring:
     host: 127.0.0.1
     port: 6379
     database: 0
+#    password: redis
   cache:
     redis:
       time-to-live: 1800000
-#    password: root
 server:
   port: 80
 #  servlet:
