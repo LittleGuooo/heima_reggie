@@ -41,9 +41,8 @@ spring:
   cache:
     redis:
       time-to-live: 1800000
-#    password: root
 server:
-  port: 8081
+  port: 8080
 #  servlet:
 #    session:
 #      # Session存活时长（分钟）
